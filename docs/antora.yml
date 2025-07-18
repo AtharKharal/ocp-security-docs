@@ -3,3 +3,4 @@ version: 4.14
 title: Security Docs
 nav:
   - modules/ROOT/nav.adoc
+start_page: ocp-security::policies.adoc
