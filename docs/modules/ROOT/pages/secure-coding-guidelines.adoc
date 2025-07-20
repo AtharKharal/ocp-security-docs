@@ -1,0 +1,42 @@
+= Secure Coding Guidelines
+:page-layout: default
+:page-role: secure-coding
+
+This guide outlines the secure software development practices all contributors must follow.
+
+== Input Validation
+
+Ensure all user inputs are sanitized and validated.
+
+[NOTE]
+====
+Use whitelisting instead of blacklisting for allowed inputs.
+====
+
+[source,java]
+----
+String cleanInput = sanitize(request.getParameter("userInput")); // <1>
+----
+<1> Sanitization prevents injection attacks.
+
+== Authentication Best Practices
+
+* Enforce password complexity and rotation policies.
+* Use OAuth2, SAML, or OpenID Connect for federated login.
+
+== Avoiding Common Vulnerabilities
+
+[%header,cols="1,2"]
+|===
+| Vulnerability | Mitigation
+
+| SQL Injection | Use parameterized queries.
+| XSS | Escape output in HTML templates.
+| CSRF | Implement CSRF tokens.
+| Secrets in Code | Use secret managers.
+|===
+
+[TIP]
+====
+Integrate tools like CodeQL or SonarQube into CI pipelines.
+====

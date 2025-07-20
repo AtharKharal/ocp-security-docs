@@ -1,0 +1,27 @@
+= Endpoint Hardening Checklist
+:page-layout: default
+:page-role: endpoint-security
+
+Checklist for hardening laptops, workstations, and mobile devices.
+
+== Configuration Controls
+
+* Auto-lock after 5 minutes.
+* Disable USB by default.
+* Enable full-disk encryption.
+
+== Required Software
+
+[options="header"]
+|===
+| Component | Tool | Notes
+
+| Anti-malware | CrowdStrike | Updated daily
+| VPN Client | WireGuard | Mandatory for remote access
+| Patch Manager | WSUS or JAMF | Critical patches <72 hrs
+|===
+
+[WARNING]
+====
+Endpoints found non-compliant will be disconnected until remediated.
+====

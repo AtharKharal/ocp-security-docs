@@ -1,1 +1,1 @@
-* xref:policies.adoc[Security Policies]
+* xref:index.adoc[Security Policies]

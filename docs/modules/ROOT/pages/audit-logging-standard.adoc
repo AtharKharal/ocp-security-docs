@@ -1,0 +1,32 @@
+= Audit Logging Standards
+:page-layout: default
+:page-role: audit-logging
+
+Details on how audit logs are structured, stored, and reviewed.
+
+== Log Format
+
+[source,json]
+----
+{
+  "timestamp": "2025-07-15T14:21:00Z",
+  "actor": "user123",
+  "action": "delete_record",
+  "resource": "db.table",
+  "ip": "192.168.1.100"
+}
+----
+
+== Retention Policy
+
+Logs are retained for 180 days minimum.
+
+== Access and Review
+
+* Only auditors and administrators can access audit logs.
+* Reviews occur monthly and during security incidents.
+
+[NOTE]
+====
+Integrate logging with centralized SIEM tools.
+====

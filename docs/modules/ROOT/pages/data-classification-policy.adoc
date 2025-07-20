@@ -1,0 +1,25 @@
+= Data Classification Policy
+:page-layout: default
+:page-role: data-classification
+
+Defines how data is categorized and protected across the system.
+
+== Classification Levels
+
+* **Public** – No impact if disclosed.
+* **Internal** – Business-only use; limited risk.
+* **Confidential** – Legal/financial; encrypted at rest.
+* **Restricted** – Highly sensitive (e.g., credentials).
+
+== Handling Rules
+
+include::partials/data-handling-matrix.adoc[]
+
+== Labeling Guidelines
+
+Use visual labels in file headers and footers:
+
+[source,plaintext]
+----
+[CONFIDENTIAL] – Do not distribute outside the organization.
+----

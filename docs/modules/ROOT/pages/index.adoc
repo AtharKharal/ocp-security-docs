@@ -1,0 +1,170 @@
+= Security Policies
+:page-layout: default
+:page-role: security-policies
+:description: OpenShift Security Policy Handbook
+:icons: font
+:toc: macro
+:toc-title: Contents
+
+[.lead]
+This document defines the mandatory security controls governing development, deployment, and operations. All teams must adhere to these practices to ensure compliance, mitigate risk, and maintain system integrity across all layers of the stack.
+
+toc::[]
+
+[NOTE]
+====
+These policies align with NIST SP 800-53, ISO/IEC 27001, and Kubernetes security benchmarks.
+====
+
+== 🔐 Access Control
+
+[cols="2,4",options="header"]
+|===
+| Control | Enforcement
+
+| MFA for all users
+| Must be enabled across SSO and shell access.
+
+| RBAC model
+| Roles mapped to the minimal privilege principle using OpenShift Projects and SCCs.
+
+| Temporary Access
+| Time-bound, auto-revoked, and logged in an immutable audit trail.
+
+| Shared Accounts
+| _Strictly prohibited_ under all circumstances.
+
+| Access Review
+| Conducted quarterly by the IAM governance team.
+|===
+
+[WARNING]
+.Access Violation
+====
+All unauthorized access attempts must be logged and escalated to the InfoSec team within **15 minutes**.
+====
+
+== 🛡️ Data Protection
+
+.Security Matrix
+
+[cols="2,3",options="header"]
+|===
+| Data Type | Protection
+
+| At Rest
+| `AES-256` encryption (e.g., LUKS, EBS encryption)
+
+| In Transit
+| TLS 1.2+ with forward secrecy and mutual TLS for internal APIs
+
+| Backups
+| Stored encrypted; restored monthly; tested quarterly
+
+| PII/PHI
+| Masked or anonymized via irreversible hashing algorithms
+|===
+
+[TIP]
+====
+You can verify TLS using `openssl s_client -connect host:443 -showcerts`
+====
+
+== 🧪 Secure Development
+
+[sidebar]
+.SDLC Requirements
+****
+All CI pipelines must embed the following security stages:
+****
+
+* `Pre-commit`: Signed commits, secret scanning
+* `CI`: Static and dependency scanning (SonarQube, OWASP Dependency Check)
+* `CD`: Image signing, CVE checks, runtime policy enforcement (e.g., OPA/Gatekeeper)
+
+[source,yaml]
+.CI/CD Pipeline Snippet (GitHub Actions)
+----
+- name: Scan for Secrets
+  uses: gitleaks/gitleaks-action@v2
+- name: SAST
+  run: sonar-scanner
+----
+
+== 🚨 Incident Response
+
+[IMPORTANT]
+.A documented IRP must exist and be tested biannually.
+
+* Severity 1 incidents require triage within **30 minutes**
+* RCA must be completed within 72 hours
+* IR metrics tracked: MTTD, MTTR, containment time
+
+[quote, "NIST 800-61"]
+____
+Every incident is a data point. You either learn from it, or repeat it.
+____
+
+== 📈 Monitoring & Logging
+
+All systems must log the following:
+
+. Login attempts (success/fail)
+. Privilege escalations (e.g., `sudo`, `oc adm`)
+. File access to sensitive volumes
+. Ingress/Egress traffic anomalies
+
+[NOTE]
+====
+Use a central SIEM (e.g., ELK stack or Splunk) with secure log forwarding via Fluentd.
+====
+
+== 💻 Endpoint Security
+
+* Anti-malware, EDR (CrowdStrike, SentinelOne) required on all endpoints
+* USB interfaces must be disabled by policy
+* OS auto-updates must be enforced via Group Policy or MDM
+
+[cols="3*",options="header"]
+| Endpoint | Protection | Patch SLA
+| Dev Laptops | EDR + FDE | 72 hrs
+| Kiosk Terminals | Hardened OS image | Weekly scan
+| Servers | Auto-patch + SIEM | Immediate for CVSS > 7.0
+
+== 🏢 Physical Security
+
+[.text-center]
+image::images/datacenter-access.svg[Data Center Access Control, width=500]
+
+* Access via biometric + ID badge
+* CCTV active 24x7; logs retained for 1 year
+* No unescorted visitor access allowed
+
+== 🤝 Third-Party Risk
+
+* Risk assessment and due diligence required pre-contract
+* DPA must be signed and stored in vendor registry
+* Vendors handling sensitive data undergo annual security review
+
+== 📜 Compliance
+
+Every employee must:
+
+* Complete annual security awareness training
+* Acknowledge security policy receipt
+* Pass phishing simulation test (90% threshold)
+
+[.text-muted]
+_Policy version: 2025.07 — Maintained by the Security Governance Team_
+
+== 📚 Appendix: Related Docs
+
+xref:incident-response-plan.adoc[Incident Response Plan]
+
+xref:secure-coding-guidelines.adoc[Secure Coding Guidelines]
+
+xref:data-classification-policy.adoc[Data Classification Policy]
+
+'''
+
+_This document is authored in AsciiDoc, generated via Antora, and complies with OpenShift security standards._

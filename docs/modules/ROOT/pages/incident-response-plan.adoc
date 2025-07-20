@@ -1,0 +1,30 @@
+= Incident Response Plan
+:page-layout: default
+:page-role: irp
+
+This document details the steps to be taken in the event of a security incident.
+
+== Response Phases
+
+. **Detection** – Monitor logs and alerts.
+. **Analysis** – Triage and classify severity.
+. **Containment** – Limit the blast radius.
+. **Eradication** – Remove root cause.
+. **Recovery** – Restore services safely.
+. **Post-Incident Review** – Document lessons learned.
+
+== Severity Classification
+
+[cols="1,1,3",options="header"]
+|===
+| Level | Response Time | Description
+| Critical | 30 min | Data breach or system compromise.
+| High | 2 hours | Malware detected, but no data loss.
+| Medium | 1 day | Suspicious activity requiring review.
+| Low | 3 days | Informational alerts or false positives.
+|===
+
+[IMPORTANT]
+====
+Contact the Security Officer immediately after detecting a Critical or High-severity incident.
+====
